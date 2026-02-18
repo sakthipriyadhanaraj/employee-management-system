@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import com.example.demo.model.Employee;
 import com.example.demo.service.EmployeeService;
@@ -13,14 +14,13 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    // Constructor injection
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-    // Create employee
+    // Create employee with validation
     @PostMapping({ "", "/" })
-    public Employee createEmployee(@RequestBody Employee employee) {
+    public Employee createEmployee(@Valid @RequestBody Employee employee) {
         return employeeService.saveEmployee(employee);
     }
 
@@ -41,11 +41,11 @@ public class EmployeeController {
     public void deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
     }
-    
+
+    // Update employee with validation
     @PutMapping("/{id}")
     public Employee updateEmployee(@PathVariable Long id,
-                                   @RequestBody Employee employee) {
+                                   @Valid @RequestBody Employee employee) {
         return employeeService.updateEmployee(id, employee);
     }
-
 }
